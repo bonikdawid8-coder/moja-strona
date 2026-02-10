@@ -140,14 +140,16 @@ while(facts.length < 150){
     facts.push({text: "Losowa ciekawostka nr " + (facts.length+1), category: (Math.random()>0.5?"game":"life")});
 }
 
-let currentIndex = 0;
-
 function showFact() {
     const category = document.getElementById("category").value;
     const filtered = category === "all" ? facts : facts.filter(f => f.category === category);
     
-    currentIndex = Math.floor(Math.random() * filtered.length);
-    
+    const filteredIndex = Math.floor(Math.random() * filtered.length);
+    const fact = filtered[filteredIndex];
+
+    // faktyczny indeks w całej tablicy
+    const actualIndex = facts.indexOf(fact);
+
     const factDiv = document.getElementById("fact-text");
     const imgDiv = document.getElementById("fact-image");
 
@@ -156,11 +158,10 @@ function showFact() {
     imgDiv.classList.remove("show");
 
     setTimeout(() => {
-        factDiv.innerText = `#${currentIndex+1} - ${filtered[currentIndex].text}`;
+        factDiv.innerText = `#${actualIndex + 1} - ${fact.text}`;
         factDiv.classList.add("show");
 
-        // losowe zdjęcie z Unsplash
-        let query = filtered[currentIndex].category === "game" ? "gaming" : "nature";
+        let query = fact.category === "game" ? "gaming" : "nature";
         imgDiv.src = `https://source.unsplash.com/800x400/?${query}&sig=${Math.floor(Math.random()*1000)}`;
         imgDiv.classList.add("show");
     }, 100);
