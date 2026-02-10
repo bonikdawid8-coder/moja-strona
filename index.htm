@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Losowe ciekawostki - Gry i Życie</title>
+<title>Losowa ciekawostka 🎮💡</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -37,27 +37,27 @@
     select:hover {
         background-color: #0056b3;
     }
-    .fact {
-        font-size: 20px;
+    #fact {
+        font-size: 22px;
         color: #222;
         max-width: 900px;
-        margin: 20px auto;
-        padding: 15px;
+        margin: 40px auto;
+        padding: 20px;
         background: rgba(255,255,255,0.7);
-        border-radius: 10px;
+        border-radius: 12px;
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.7s ease;
+        transform: translateX(100%);
+        transition: all 0.8s ease;
     }
-    .fact.show {
+    #fact.show {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 </style>
 </head>
 <body>
 
-<h1>Losowe ciekawostki 🎮💡</h1>
+<h1>Losowa ciekawostka 🎮💡</h1>
 
 <select id="category">
     <option value="all">Wszystkie</option>
@@ -65,13 +65,9 @@
     <option value="life">Życie</option>
 </select>
 
-<button onclick="showFacts()">Pokaż ciekawostki</button>
+<button onclick="showFact()">Pokaż ciekawostkę</button>
 
-<div id="facts-container">
-    <div class="fact">Kliknij przycisk, aby poznać ciekawostki!</div>
-    <div class="fact"></div>
-    <div class="fact"></div>
-</div>
+<div id="fact">Kliknij przycisk, aby zobaczyć ciekawostkę!</div>
 
 <script>
 const facts = [
@@ -117,31 +113,27 @@ const facts = [
     {text: "Niektóre zwierzęta mogą żyć bez jedzenia przez miesiące.", category: "life"},
     {text: "Niektóre rośliny komunikują się chemicznie.", category: "life"},
     {text: "Niektóre ryby mogą regenerować części ciała.", category: "life"},
-
-    // Dodaj tu kolejne, aby osiągnąć 150
 ];
 
-// Automatycznie generujemy resztę losowych dla demo (można podmienić prawdziwymi)
+// Dodajemy resztę do 150
 while(facts.length < 150){
     facts.push({text: "Losowa ciekawostka nr " + (facts.length+1), category: (Math.random()>0.5?"game":"life")});
 }
 
-function showFacts() {
+let currentIndex = 0;
+
+function showFact() {
     const category = document.getElementById("category").value;
     const filtered = category === "all" ? facts : facts.filter(f => f.category === category);
     
-    const container = document.getElementById("facts-container");
-    const divs = container.querySelectorAll(".fact");
+    currentIndex = Math.floor(Math.random() * filtered.length);
+    const factDiv = document.getElementById("fact");
     
-    divs.forEach(div => div.classList.remove("show")); // reset animacji
-
-    divs.forEach((div, i) => {
-        const randomFact = filtered[Math.floor(Math.random() * filtered.length)];
-        setTimeout(() => {
-            div.innerText = randomFact.text;
-            div.classList.add("show");
-        }, i * 200); // lekkie przesunięcie czasowe dla animacji kolejnych
-    });
+    factDiv.classList.remove("show"); // reset animacji
+    setTimeout(() => {
+        factDiv.innerText = `#${currentIndex+1} - ${filtered[currentIndex].text}`;
+        factDiv.classList.add("show"); // fade-in + przesuwanie
+    }, 100);
 }
 </script>
 
