@@ -5,17 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Losowa ciekawostka 🎮💡</title>
 <style>
-body { font-family: Arial, sans-serif; background: linear-gradient(to right, #a8edea, #fed6e3); text-align:center; padding:50px; }
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #a8edea, #fed6e3);
+  text-align:center;
+  padding:50px;
+}
 h1 { color: #333; }
-button, select { padding: 12px 25px; font-size:16px; cursor:pointer; border:none; border-radius:8px; margin:10px; transition:0.3s; }
+button, select {
+  padding: 12px 25px;
+  font-size:16px;
+  cursor:pointer;
+  border:none;
+  border-radius:8px;
+  margin:10px;
+  transition:0.3s;
+}
 button { background-color: #ff6f61; color:white; }
 button:hover { background-color:#e55b50; }
 select { background-color:#007BFF; color:white; }
 select:hover { background-color:#0056b3; }
-#fact-container { margin-top:40px; max-width:900px; margin-left:auto; margin-right:auto; }
-#fact-image { width:100%; max-height:400px; object-fit:cover; border-radius:12px; margin-bottom:20px; opacity:0; transform:translateX(100%); transition:all 0.8s ease; }
+#fact-container {
+  margin-top:40px;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#fact-image {
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:20px;
+  opacity:0;
+  transform:translateX(100%);
+  transition:all 0.8s ease;
+}
 #fact-image.show { opacity:1; transform:translateX(0); }
-#fact-text { font-size:22px; color:#222; padding:20px; background: rgba(255,255,255,0.7); border-radius:12px; opacity:0; transform:translateX(100%); transition:all 0.8s ease; }
+#fact-text {
+  font-size:22px;
+  color:#222;
+  padding:20px;
+  background: rgba(255,255,255,0.7);
+  border-radius:12px;
+  opacity:0;
+  transform:translateX(100%);
+  transition:all 0.8s ease;
+}
 #fact-text.show { opacity:1; transform:translateX(0); }
 </style>
 </head>
@@ -23,176 +59,192 @@ select:hover { background-color:#0056b3; }
 
 <h1>Losowa ciekawostka 🎮💡</h1>
 <select id="category">
-<option value="all">Wszystkie</option>
-<option value="game">Gry</option>
-<option value="life">Życie</option>
+  <option value="all">Wszystkie</option>
+  <option value="game">Gry</option>
+  <option value="life">Życie</option>
 </select>
 <button onclick="showFact()">Pokaż ciekawostkę</button>
 
 <div id="fact-container">
-<img id="fact-image" src="" alt="Losowe zdjęcie">
-<div id="fact-text">Kliknij przycisk, aby zobaczyć ciekawostkę!</div>
+  <img id="fact-image" src="" alt="Losowe zdjęcie" onerror="this.src='https://via.placeholder.com/800x400?text=Brak+zdjecia'">
+  <div id="fact-text">Kliknij przycisk, aby zobaczyć ciekawostkę!</div>
 </div>
 
 <script>
+// --- 150 ciekawostek (75 Gry, 75 Życie) ---
 const facts = [
-    // 75 ciekawostek o grach
-    {text:"Pierwsza gra komputerowa powstała w 1958 roku – 'Tennis for Two'.", category:"game"},
-    {text:"Najpopularniejszą grą na świecie jest Minecraft.", category:"game"},
-    {text:"Pac-Man pierwotnie nazywał się Puck-Man.", category:"game"},
-    {text:"Super Mario pojawił się w Donkey Kong w 1981 roku.", category:"game"},
-    {text:"Gra The Sims pozwala symulować życie codzienne.", category:"game"},
-    {text:"W Fortnite gracze spędzili miliardy godzin.", category:"game"},
-    {text:"Gra Portal wprowadziła mechanikę portali.", category:"game"},
-    {text:"Doom w 1993 roku zrewolucjonizował gatunek FPS.", category:"game"},
-    {text:"Half-Life 2 wprowadziło realistyczną fizykę obiektów.", category:"game"},
-    {text:"Civilization pozwala prowadzić cywilizacje przez tysiące lat.", category:"game"},
-    {text:"League of Legends miała ponad 100 mln aktywnych graczy.", category:"game"},
-    {text:"Super Mario Bros była przełomowa dla platformówek.", category:"game"},
-    {text:"Pac-Man ma ukryty 'kill screen'.", category:"game"},
-    {text:"Pierwsza konsola domowa: Magnavox Odyssey.", category:"game"},
-    {text:"Pierwsza gra Mario Kart powstała w 1992 roku.", category:"game"},
-    {text:"Tetris generuje klocki coraz szybciej.", category:"game"},
-    {text:"The Legend of Zelda: Ocarina of Time była jedną z pierwszych 3D.", category:"game"},
-    {text:"Pierwszy FPS to Maze War z lat 70-tych.", category:"game"},
-    {text:"Minecraft pierwotnie nazywał się 'Cave Game'.", category:"game"},
-    {text:"W grach RPG gracze często mają ponad 100 godzin zabawy.", category:"game"},
-    {text:"W Pac-Manie duszki mają różne strategie ścigania gracza.", category:"game"},
-    {text:"Najdłuższa gra na świecie trwała 35 dni non-stop.", category:"game"},
-    {text:"Pierwsza konsola Sony: PlayStation 1 z 1994 roku.", category:"game"},
-    {text:"Counter-Strike powstał jako mod do Half-Life w 1999 roku.", category:"game"},
-    {text:"Pierwszy Game Boy miał ekran w odcieniach szarości.", category:"game"},
-    {text:"W roguelike poziomy są losowo generowane.", category:"game"},
-    {text:"Blok L w Tetris można ustawić w 4 pozycjach.", category:"game"},
-    {text:"W Mario Kart Banana Peel spowalnia gracza.", category:"game"},
-    {text:"Pac-Man ma ukrytą funkcję 'Perfect Score'.", category:"game"},
-    {text:"Pierwsze gry komputerowe miały grafiki w ASCII.", category:"game"},
-    {text:"Pierwszy turniej e-sportowy odbył się w 1972 roku.", category:"game"},
-    {text:"World of Warcraft miało 12 mln subskrybentów w 2010 roku.", category:"game"},
-    {text:"W grach survivalowych ważne jest zarządzanie zasobami.", category:"game"},
-    {text:"Minecraft można grać w trybie kreatywnym i survival.", category:"game"},
-    {text:"Gry z otwartym światem pozwalają swobodnie eksplorować mapę.", category:"game"},
-    {text:"GTA V ma największą mapę w serii GTA.", category:"game"},
-    {text:"NES miał 8-bitowy procesor.", category:"game"},
-    {text:"Pokémon Red i Blue ukazały się w 1996 roku.", category:"game"},
-    {text:"W MOBA gracze mają role: tank, support, DPS.", category:"game"},
-    {text:"W Doom gracze walczą z demonami na Marsie.", category:"game"},
-    {text:"Portal wymaga użycia fizyki do przechodzenia poziomów.", category:"game"},
-    {text:"The Sims pozwala tworzyć własne rodziny i domy.", category:"game"},
-    {text:"Counter-Strike ma różne tryby: casual, competitive, deathmatch.", category:"game"},
-    {text:"Pac-Man jest jedną z najbardziej rozpoznawalnych gier wszech czasów.", category:"game"},
-    {text:"Mario pojawia się w ponad 200 grach.", category:"game"},
-    {text:"W Fortnite mapy zmieniają się sezonowo.", category:"game"},
-    {text:"WoW ma własną walutę i ekonomię.", category:"game"},
-    {text:"W Minecraft można budować repliki prawdziwych miast.", category:"game"},
-    {text:"Tetris został stworzony przez rosyjskiego programistę A. Pajitnowa.", category:"game"},
-    {text:"Pac-Man został zaprojektowany w 1980 roku przez Toru Iwatani.", category:"game"},
-    {text:"Super Mario ma brata imieniem Luigi.", category:"game"},
-    {text:"Pokemon Go zmusił ludzi do wychodzenia z domów.", category:"game"},
-    {text:"W Skyrim można zostać wampirem lub wilkołakiem.", category:"game"},
-    {text:"W GTA można prowadzić ponad 100 pojazdów.", category:"game"},
-    {text:"W Mario Bros można znaleźć warp zone.", category:"game"},
-    {text:"W Fortnite wprowadzono tryb kreatywny w 2018.", category:"game"},
-    {text:"The Witcher 3 ma ponad 150 godzin fabuły.", category:"game"},
-    {text:"Among Us zdobyło popularność w 2020 roku.", category:"game"},
-    {text:"Fall Guys to gra inspirowana teleturniejami.", category:"game"},
-    {text:"League of Legends powstało w 2009 roku.", category:"game"},
-    {text:"Minecraft pozwala na hodowlę zwierząt i roślin.", category:"game"},
-    {text:"W Pac-Manie istnieje sekretna mapa.", category:"game"},
-    {text:"Tetris jest uznany za grę logiczną wszech czasów.", category:"game"},
-    {text:"Super Mario 64 wprowadziło kamery 3D w grach platformowych.", category:"game"},
-    {text:"Gra Doom została wydana na ponad 10 platformach.", category:"game"},
-    {text:"W The Sims można adoptować zwierzęta.", category:"game"},
-    {text:"World of Warcraft ma własne miasta graczy: Orgrimmar i Stormwind.", category:"game"},
-
-    // 75 ciekawostek o życiu
-    {text:"Ludzie średnio mrugają 15–20 razy na minutę.", category:"life"},
-    {text:"Serce bije około 100 000 razy dziennie.", category:"life"},
-    {text:"Człowiek śpi średnio 25 lat w życiu.", category:"life"},
-    {text:"Mózg generuje około 20 wat energii w spoczynku.", category:"life"},
-    {text:"Ciało ma około 37 bilionów komórek.", category:"life"},
-    {text:"Kości są pięć razy mocniejsze od stali.", category:"life"},
-    {text:"Człowiek przechodzi średnio 150 000 km w życiu.", category:"life"},
-    {text:"Niektóre żółwie oddychają przez pośladki.", category:"life"},
-    {text:"Niektóre ryby przeżywają ekstremalne zimno.", category:"life"},
-    {text:"Mózg waży około 1,4 kg.", category:"life"},
-    {text:"Oczy rozróżniają około 10 mln kolorów.", category:"life"},
-    {text:"Człowiek ma około 206 kości.", category:"life"},
-    {text:"Człowiek ma około 5 milionów włosów.", category:"life"},
-    {text:"Niektóre drzewa żyją ponad 5 000 lat.", category:"life"},
-    {text:"Niektóre ptaki naśladują ludzką mowę.", category:"life"},
-    {text:"Niektóre zwierzęta używają narzędzi do jedzenia.", category:"life"},
-    {text:"Średnia długość życia kota to 15 lat.", category:"life"},
-    {text:"Niektóre zwierzęta żyją bez jedzenia miesiącami.", category:"life"},
-    {text:"Niektóre rośliny komunikują się chemicznie.", category:"life"},
-    {text:"Niektóre ryby regenerują części ciała.", category:"life"},
-    {text:"Woda stanowi 60% masy ciała człowieka.", category:"life"},
-    {text:"Najstarsza znana osoba żyła 122 lata.", category:"life"},
-    {text:"Człowiek spala około 2000 kcal dziennie.", category:"life"},
-    {text:"Największy organ w ciele to skóra.", category:"life"},
-    {text:"Mózg składa się w 75% z wody.", category:"life"},
-    {text:"Najmniejsza kość to strzemiączko.", category:"life"},
-    {text:"Człowiek ma około 100 000 włosów na głowie.", category:"life"},
-    {text:"Średnia długość życia psa: 10–13 lat.", category:"life"},
-    {text:"Człowiek oddycha ok. 20 000 razy dziennie.", category:"life"},
-    {text:"Język ma około 10 000 kubków smakowych.", category:"life"},
-    {text:"Człowiek wydziela około 1 litra śliny dziennie.", category:"life"},
-    {text:"Niektóre rośliny żyją tysiące lat.", category:"life"},
-    {text:"Niektóre zwierzęta regenerują kończyny.", category:"life"},
-    {text:"Niektóre ptaki migrują tysiące km.", category:"life"},
-    {text:"Nos rozróżnia około 1 biliona zapachów.", category:"life"},
-    {text:"Człowiek wydala 1–2 litry moczu dziennie.", category:"life"},
-    {text:"Serce pompuje około 7 500 litrów krwi dziennie.", category:"life"},
-    {text:"Organizm odnawia się w większości co kilka lat.", category:"life"},
-    {text:"Niektóre zwierzęta komunikują się głosem i gestem.", category:"life"},
-    {text:"Człowiek może żyć bez jedzenia kilka tygodni.", category:"life"},
-    {text:"Największym mięśniem jest pośladkowy wielki.", category:"life"},
-    {text:"Niektóre rośliny wytwarzają trucizny dla obrony.", category:"life"},
-    {text:"Niektóre zwierzęta wytwarzają światło – bioluminescencja.", category:"life"},
-    {text:"Ludzie śmieją się średnio 15 razy dziennie.", category:"life"},
-    {text:"Człowiek może zapamiętać 2,5 petabajta informacji.", category:"life"},
-    {text:"Człowiek potrafi biegać do 45 km/h krótkodystansowo.", category:"life"},
-    {text:"Niektóre zwierzęta przewidują zmiany pogody.", category:"life"},
-    {text:"Człowiek ma unikalne linie papilarne.", category:"life"},
-    {text:"Niektóre ryby oddychają w wodzie i na lądzie.", category:"life"},
-    {text:"Niektóre rośliny poruszają liśćmi w ciągu dnia.", category:"life"},
-    {text:"Człowiek spala kalorie nawet podczas snu.", category:"life"},
-    {text:"Mózg ludzki potrafi wytwarzać nowe komórki.", category:"life"},
-    {text:"Niektóre zwierzęta widzą w podczerwieni.", category:"life"},
-    {text:"Niektóre ptaki potrafią nawigować po gwiazdach.", category:"life"},
-    {text:"Człowiek może wykryć ból w ułamkach sekundy.", category:"life"},
-    {text:"Niektóre rośliny wydzielają zapachy tylko w nocy.", category:"life"},
-    {text:"Człowiek potrafi rozpoznać tysiące twarzy.", category:"life"},
-    {text:"Niektóre zwierzęta przeżywają w ekstremalnym zimnie.", category:"life"},
-    {text:"Ludzkie serce potrafi przyspieszyć w ciągu sekund.", category:"life"},
-    {text:"Niektóre ryby migrują tysiące kilometrów.", category:"life"},
-    {text:"Człowiek potrafi nauczyć się języka w każdym wieku.", category:"life"},
-    {text:"Niektóre zwierzęta zmieniają kolor skóry dla kamuflażu.", category:"life"},
-    {text:"Niektóre drzewa komunikują się pod ziemią za pomocą grzybni.", category:"life"}
+  // --- 75 ciekawostek o grach ---
+  {text:"Pierwsza gra komputerowa powstała w 1958 roku – 'Tennis for Two'.", category:"game"},
+  {text:"Najpopularniejszą grą na świecie jest Minecraft.", category:"game"},
+  {text:"Pac-Man pierwotnie nazywał się Puck-Man.", category:"game"},
+  {text:"Super Mario pojawił się w Donkey Kong w 1981 roku.", category:"game"},
+  {text:"Gra The Sims pozwala symulować życie codzienne.", category:"game"},
+  {text:"W Fortnite gracze spędzili miliardy godzin.", category:"game"},
+  {text:"Gra Portal wprowadziła mechanikę portali.", category:"game"},
+  {text:"Doom w 1993 roku zrewolucjonizował gatunek FPS.", category:"game"},
+  {text:"Half-Life 2 wprowadziło realistyczną fizykę obiektów.", category:"game"},
+  {text:"Civilization pozwala prowadzić cywilizacje przez tysiące lat.", category:"game"},
+  {text:"League of Legends miała ponad 100 mln aktywnych graczy.", category:"game"},
+  {text:"Super Mario Bros była przełomowa dla platformówek.", category:"game"},
+  {text:"Pac-Man ma ukryty 'kill screen'.", category:"game"},
+  {text:"Pierwsza konsola domowa: Magnavox Odyssey.", category:"game"},
+  {text:"Pierwsza gra Mario Kart powstała w 1992 roku.", category:"game"},
+  {text:"Tetris generuje klocki coraz szybciej.", category:"game"},
+  {text:"The Legend of Zelda: Ocarina of Time była jedną z pierwszych 3D.", category:"game"},
+  {text:"Pierwszy FPS to Maze War z lat 70-tych.", category:"game"},
+  {text:"Minecraft pierwotnie nazywał się 'Cave Game'.", category:"game"},
+  {text:"W grach RPG gracze często mają ponad 100 godzin zabawy.", category:"game"},
+  {text:"W Pac-Manie duszki mają różne strategie ścigania gracza.", category:"game"},
+  {text:"Najdłuższa gra na świecie trwała 35 dni non-stop.", category:"game"},
+  {text:"Pierwsza konsola Sony: PlayStation 1 z 1994 roku.", category:"game"},
+  {text:"Counter-Strike powstał jako mod do Half-Life w 1999 roku.", category:"game"},
+  {text:"Pierwszy Game Boy miał ekran w odcieniach szarości.", category:"game"},
+  {text:"W roguelike poziomy są losowo generowane.", category:"game"},
+  {text:"Blok L w Tetris można ustawić w 4 pozycjach.", category:"game"},
+  {text:"W Mario Kart Banana Peel spowalnia gracza.", category:"game"},
+  {text:"Pac-Man ma ukrytą funkcję 'Perfect Score'.", category:"game"},
+  {text:"Pierwsze gry komputerowe miały grafiki w ASCII.", category:"game"},
+  {text:"Pierwszy turniej e-sportowy odbył się w 1972 roku.", category:"game"},
+  {text:"World of Warcraft miało 12 mln subskrybentów w 2010 roku.", category:"game"},
+  {text:"W grach survivalowych ważne jest zarządzanie zasobami.", category:"game"},
+  {text:"Minecraft można grać w trybie kreatywnym i survival.", category:"game"},
+  {text:"Gry z otwartym światem pozwalają swobodnie eksplorować mapę.", category:"game"},
+  {text:"GTA V ma największą mapę w serii GTA.", category:"game"},
+  {text:"NES miał 8-bitowy procesor.", category:"game"},
+  {text:"Pokémon Red i Blue ukazały się w 1996 roku.", category:"game"},
+  {text:"W MOBA gracze mają role: tank, support, DPS.", category:"game"},
+  {text:"W Doom gracze walczą z demonami na Marsie.", category:"game"},
+  {text:"Portal wymaga użycia fizyki do przechodzenia poziomów.", category:"game"},
+  {text:"The Sims pozwala tworzyć własne rodziny i domy.", category:"game"},
+  {text:"Counter-Strike ma różne tryby: casual, competitive, deathmatch.", category:"game"},
+  {text:"Pac-Man jest jedną z najbardziej rozpoznawalnych gier wszech czasów.", category:"game"},
+  {text:"Mario pojawia się w ponad 200 grach.", category:"game"},
+  {text:"W Fortnite mapy zmieniają się sezonowo.", category:"game"},
+  {text:"WoW ma własną walutę i ekonomię.", category:"game"},
+  {text:"W Minecraft można budować repliki prawdziwych miast.", category:"game"},
+  {text:"Tetris został stworzony przez rosyjskiego programistę A. Pajitnowa.", category:"game"},
+  {text:"Pac-Man został zaprojektowany w 1980 roku przez Toru Iwatani.", category:"game"},
+  {text:"Super Mario ma brata imieniem Luigi.", category:"game"},
+  {text:"Pokemon Go zmusił ludzi do wychodzenia z domów.", category:"game"},
+  {text:"W Skyrim można zostać wampirem lub wilkołakiem.", category:"game"},
+  {text:"W GTA można prowadzić ponad 100 pojazdów.", category:"game"},
+  {text:"W Mario Bros można znaleźć warp zone.", category:"game"},
+  {text:"W Fortnite wprowadzono tryb kreatywny w 2018.", category:"game"},
+  {text:"The Witcher 3 ma ponad 150 godzin fabuły.", category:"game"},
+  {text:"Among Us zdobyło popularność w 2020 roku.", category:"game"},
+  {text:"Fall Guys to gra inspirowana teleturniejami.", category:"game"},
+  {text:"League of Legends powstało w 2009 roku.", category:"game"},
+  {text:"Minecraft pozwala na hodowlę zwierząt i roślin.", category:"game"},
+  {text:"W Pac-Manie istnieje sekretna mapa.", category:"game"},
+  {text:"Tetris jest uznany za grę logiczną wszech czasów.", category:"game"},
+  {text:"Super Mario 64 wprowadziło kamery 3D w grach platformowych.", category:"game"},
+  {text:"Gra Doom została wydana na ponad 10 platformach.", category:"game"},
+  {text:"W The Sims można adoptować zwierzęta.", category:"game"},
+  {text:"World of Warcraft ma własne miasta graczy: Orgrimmar i Stormwind.", category:"game"},
+  // --- 75 ciekawostek o życiu ---
+  {text:"Ludzie średnio mrugają 15–20 razy na minutę.", category:"life"},
+  {text:"Serce bije około 100 000 razy dziennie.", category:"life"},
+  {text:"Człowiek śpi średnio 25 lat w życiu.", category:"life"},
+  {text:"Mózg generuje około 20 wat energii w spoczynku.", category:"life"},
+  {text:"Ciało ma około 37 bilionów komórek.", category:"life"},
+  {text:"Kości są pięć razy mocniejsze od stali.", category:"life"},
+  {text:"Człowiek przechodzi średnio 150 000 km w życiu.", category:"life"},
+  {text:"Niektóre żółwie oddychają przez pośladki.", category:"life"},
+  {text:"Niektóre ryby przeżywają ekstremalne zimno.", category:"life"},
+  {text:"Mózg waży około 1,4 kg.", category:"life"},
+  {text:"Oczy rozróżniają około 10 mln kolorów.", category:"life"},
+  {text:"Człowiek ma około 206 kości.", category:"life"},
+  {text:"Człowiek ma około 5 milionów włosów.", category:"life"},
+  {text:"Niektóre drzewa żyją ponad 5 000 lat.", category:"life"},
+  {text:"Niektóre ptaki naśladują ludzką mowę.", category:"life"},
+  {text:"Niektóre zwierzęta używają narzędzi do jedzenia.", category:"life"},
+  {text:"Średnia długość życia kota to 15 lat.", category:"life"},
+  {text:"Niektóre zwierzęta żyją bez jedzenia miesiącami.", category:"life"},
+  {text:"Niektóre rośliny komunikują się chemicznie.", category:"life"},
+  {text:"Niektóre ryby regenerują części ciała.", category:"life"},
+  {text:"Woda stanowi 60% masy ciała człowieka.", category:"life"},
+  {text:"Najstarsza znana osoba żyła 122 lata.", category:"life"},
+  {text:"Człowiek spala około 2000 kcal dziennie.", category:"life"},
+  {text:"Największy organ w ciele to skóra.", category:"life"},
+  {text:"Mózg składa się w 75% z wody.", category:"life"},
+  {text:"Najmniejsza kość to strzemiączko.", category:"life"},
+  {text:"Człowiek ma około 100 000 włosów na głowie.", category:"life"},
+  {text:"Średnia długość życia psa: 10–13 lat.", category:"life"},
+  {text:"Człowiek oddycha ok. 20 000 razy dziennie.", category:"life"},
+  {text:"Język ma około 10 000 kubków smakowych.", category:"life"},
+  {text:"Człowiek wydziela około 1 litra śliny dziennie.", category:"life"},
+  {text:"Niektóre rośliny żyją tysiące lat.", category:"life"},
+  {text:"Niektóre zwierzęta regenerują kończyny.", category:"life"},
+  {text:"Niektóre ptaki migrują tysiące km.", category:"life"},
+  {text:"Nos rozróżnia około 1 biliona zapachów.", category:"life"},
+  {text:"Człowiek wydala 1–2 litry moczu dziennie.", category:"life"},
+  {text:"Serce pompuje około 7 500 litrów krwi dziennie.", category:"life"},
+  {text:"Organizm odnawia się w większości co kilka lat.", category:"life"},
+  {text:"Niektóre zwierzęta komunikują się głosem i gestem.", category:"life"},
+  {text:"Człowiek może żyć bez jedzenia kilka tygodni.", category:"life"},
+  {text:"Największym mięśniem jest pośladkowy wielki.", category:"life"},
+  {text:"Niektóre rośliny wytwarzają trucizny dla obrony.", category:"life"},
+  {text:"Niektóre zwierzęta wytwarzają światło – bioluminescencja.", category:"life"},
+  {text:"Ludzie śmieją się średnio 15 razy dziennie.", category:"life"},
+  {text:"Człowiek może zapamiętać 2,5 petabajta informacji.", category:"life"},
+  {text:"Człowiek potrafi biegać do 45 km/h krótkodystansowo.", category:"life"},
+  {text:"Niektóre zwierzęta przewidują zmiany pogody.", category:"life"},
+  {text:"Człowiek ma unikalne linie papilarne.", category:"life"},
+  {text:"Niektóre ryby oddychają w wodzie i na lądzie.", category:"life"},
+  {text:"Niektóre rośliny poruszają liśćmi w ciągu dnia.", category:"life"},
+  {text:"Człowiek spala kalorie nawet podczas snu.", category:"life"},
+  {text:"Mózg ludzki potrafi wytwarzać nowe komórki.", category:"life"},
+  {text:"Niektóre zwierzęta widzą w podczerwieni.", category:"life"},
+  {text:"Niektóre ptaki potrafią nawigować po gwiazdach.", category:"life"},
+  {text:"Człowiek może wykryć ból w ułamkach sekundy.", category:"life"},
+  {text:"Niektóre rośliny wydzielają zapachy tylko w nocy.", category:"life"},
+  {text:"Człowiek potrafi rozpoznać tysiące twarzy.", category:"life"},
+  {text:"Niektóre zwierzęta przeżywają w ekstremalnym zimnie.", category:"life"},
+  {text:"Ludzkie serce potrafi przyspieszyć w ciągu sekund.", category:"life"},
+  {text:"Niektóre ryby migrują tysiące kilometrów.", category:"life"},
+  {text:"Człowiek potrafi nauczyć się języka w każdym wieku.", category:"life"},
+  {text:"Niektóre zwierzęta zmieniają kolor skóry dla kamuflażu.", category:"life"},
+  {text:"Niektóre drzewa komunikują się pod ziemią za pomocą grzybni.", category:"life"}
 ];
 
-let currentIndex = 0;
+// --- Zdjęcia ---
+const gameImages = [
+"https://images.unsplash.com/photo-1606813904485-df50a5b4e4fa",
+"https://images.unsplash.com/photo-1581092795363-8ed2d3e0f871",
+"https://images.unsplash.com/photo-1511512578047-dfb367046420",
+"https://images.unsplash.com/photo-1473187983305-f615310e7daa",
+"https://images.unsplash.com/photo-1611571455503-6f1599db3101"
+];
 
-function showFact(){
-    const category = document.getElementById("category").value;
-    const filtered = category==="all"?facts:facts.filter(f=>f.category===category);
-    const filteredIndex = Math.floor(Math.random()*filtered.length);
-    const fact = filtered[filteredIndex];
-    const actualIndex = facts.indexOf(fact);
+const lifeImages = [
+"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+"https://images.unsplash.com/photo-1504198453319-5ce911bafcde",
+"https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+"https://images.unsplash.com/photo-1498837167922-ddd27525d352",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+];
 
-    const factDiv = document.getElementById("fact-text");
-    const imgDiv = document.getElementById("fact-image");
+function showFact() {
+  const category = document.getElementById("category").value;
+  const filtered = category==="all" ? facts : facts.filter(f => f.category===category);
+  const randomIndex = Math.floor(Math.random() * filtered.length);
+  const fact = filtered[randomIndex];
+  const actualIndex = facts.indexOf(fact);
 
-    factDiv.classList.remove("show");
-    imgDiv.classList.remove("show");
+  const factDiv = document.getElementById("fact-text");
+  const imgDiv = document.getElementById("fact-image");
 
-    setTimeout(()=>{
-        factDiv.innerText = `#${actualIndex+1} - ${fact.text}`;
-        factDiv.classList.add("show");
-        let query = fact.category==="game"?"gaming":"nature";
-        imgDiv.src=`https://source.unsplash.com/800x400/?${query}&sig=${Math.floor(Math.random()*1000)}`;
-        imgDiv.classList.add("show");
-    },100);
+  factDiv.classList.remove("show");
+  imgDiv.classList.remove("show");
+
+  setTimeout(() => {
+    factDiv.innerText = `#${actualIndex+1} - ${fact.text}`;
+    factDiv.classList.add("show");
+
+    let imagesArray = fact.category==="game" ? gameImages : lifeImages;
+    imgDiv.src = imagesArray[Math.floor(Math.random()*imagesArray.length)];
+    imgDiv.classList.add("show");
+  }, 100);
 }
 </script>
 </body>
