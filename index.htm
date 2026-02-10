@@ -2,53 +2,56 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Kawały o czołgach</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja Interaktywna Strona</title>
     <style>
         body {
-            background-color: #0f172a;
-            color: #e5e7eb;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             text-align: center;
-            padding: 40px;
+            padding: 50px;
         }
         h1 {
-            color: #38bdf8;
+            color: #333;
         }
-        .joke {
-            background: #020617;
-            border: 2px solid #38bdf8;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #joke {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #555;
         }
     </style>
 </head>
 <body>
+    <h1>Witaj na mojej stronie!</h1>
+    <button onclick="showJoke()">Pokaż żart o czołgu</button>
+    <div id="joke"></div>
 
-<h1>😂 Kawały o czołgach</h1>
+    <script>
+        const jokes = [
+            "Dlaczego czołg nie gra w piłkę? Bo nie może trafić w bramkę!",
+            "Co mówi czołg do innego czołgu? 'Nie turlaj się tak szybko!'",
+            "Dlaczego czołgi są złe w wyścigach? Bo zawsze zostawiają ślad!",
+            "Czołg wchodzi do baru… i wszystko rozwala.",
+            "Czołgi nie chodzą na siłownię, bo mają już własne gąsienice!"
+        ];
 
-<div class="joke">
-    <p>Dlaczego czołg nie chodzi na imprezy?</p>
-    <strong>Bo zawsze wjeżdża za ciężko 💥</strong>
-</div>
-
-<div class="joke">
-    <p>Jak czołg mówi „dzień dobry”?</p>
-    <strong>— Trrrrrr! 😎</strong>
-</div>
-
-<div class="joke">
-    <p>Dlaczego czołg jest złym kucharzem?</p>
-    <strong>Bo wszystko mieli 😬</strong>
-</div>
-
-<div class="joke">
-    <p>Co mówi czołg do mechanika?</p>
-    <strong>— Nie skręcaj mi wieży… 😏</strong>
-</div>
-
-<p>🚜💥</p>
-
+        function showJoke() {
+            const randomIndex = Math.floor(Math.random() * jokes.length);
+            document.getElementById("joke").innerText = jokes[randomIndex];
+        }
+    </script>
 </body>
 </html>
