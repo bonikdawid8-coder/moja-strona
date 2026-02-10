@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Interaktywna Strona</title>
+    <title>Losowe ciekawostki</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(to right, #a8edea, #fed6e3);
             text-align: center;
             padding: 50px;
         }
@@ -15,43 +15,154 @@
             color: #333;
         }
         button {
-            padding: 10px 20px;
+            padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
-            background-color: #4CAF50;
+            background-color: #ff6f61;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: background-color 0.3s;
+            margin-top: 20px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #e55b50;
         }
-        #joke {
-            margin-top: 30px;
+        #fact {
+            margin-top: 40px;
             font-size: 20px;
-            color: #555;
+            color: #222;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+        }
+        #fact.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <h1>Witaj na mojej stronie!</h1>
-    <button onclick="showJoke()">Pokaż żart o czołgu</button>
-    <div id="joke"></div>
+    <h1>Losowa ciekawostka 🎮💡</h1>
+    <button onclick="showFact()">Pokaż ciekawostkę</button>
+    <div id="fact">Kliknij przycisk, aby poznać ciekawostkę!</div>
 
     <script>
-        const jokes = [
-            "Dlaczego czołg nie gra w piłkę? Bo nie może trafić w bramkę!",
-            "Co mówi czołg do innego czołgu? 'Nie turlaj się tak szybko!'",
-            "Dlaczego czołgi są złe w wyścigach? Bo zawsze zostawiają ślad!",
-            "Czołg wchodzi do baru… i wszystko rozwala.",
-            "Czołgi nie chodzą na siłownię, bo mają już własne gąsienice!"
+        const facts = [
+            "Pierwsza gra komputerowa powstała w 1958 roku – nazywała się 'Tennis for Two'.",
+            "Najpopularniejszą grą na świecie jest Minecraft.",
+            "W Japonii istnieje kawiarnia, w której można grać w retro gry z lat 80-tych.",
+            "Ludzie średnio mrugają około 15–20 razy na minutę.",
+            "W kosmosie nie można płakać normalnie – łzy nie spływają, tylko tworzą kulki.",
+            "Pac-Man miał pierwotnie imię Puck-Man w Japonii.",
+            "Serce człowieka bije średnio 100 000 razy dziennie.",
+            "Najstarsza znana gra planszowa to Senet – pochodzi ze starożytnego Egiptu.",
+            "Niektóre żółwie mogą oddychać przez swoje pośladki.",
+            "W wielu grach RPG można znaleźć easter eggi ukryte przez twórców.",
+            "Wideo gry mogą poprawiać refleks i koordynację ręka-oko.",
+            "W ciągu swojego życia człowiek przejdzie średnio około 150 000 km.",
+            "Super Mario pojawił się po raz pierwszy w grze Donkey Kong w 1981 roku.",
+            "Mózg człowieka generuje około 20 wat energii elektrycznej w spoczynku.",
+            "Najwięcej złotych medali olimpijskich w historii zdobył Michael Phelps.",
+            "W Fortnite gracze spędzili razem miliardy godzin w grze od premiery.",
+            "Pierwsze komputery zajmowały całe pokoje, a dzisiejsze smartfony mają większą moc obliczeniową.",
+            "W grach często można znaleźć ukryte poziomy lub postacie zwane 'sekretnymi'.",
+            "Ludzkie kości są pięć razy mocniejsze od stali o tej samej grubości.",
+            "Niektóre gry pozwalają na tworzenie całych wirtualnych światów jak w Minecraft czy Roblox.",
+            "W grze Tetris klocki spadają coraz szybciej, co uczy szybkiego podejmowania decyzji.",
+            "Gra The Legend of Zelda: Ocarina of Time była jedną z pierwszych 3D gier akcji.",
+            "Człowiek śpi średnio 25 lat w ciągu całego życia.",
+            "W grach typu open world gracze mogą spędzać godziny na odkrywaniu świata, nie kończąc fabuły.",
+            "Najwięcej postaci w grze fightingowej ma Super Smash Bros Ultimate.",
+            "Niektóre ptaki potrafią zapamiętać setki miejsc, w których chowają jedzenie.",
+            "Gra World of Warcraft w szczytowym okresie miała ponad 12 milionów subskrybentów.",
+            "Ludzkie ciało ma około 37 bilionów komórek.",
+            "W grach survivalowych gracze uczą się zarządzania zasobami i planowania.",
+            "Pierwsze gry komputerowe były wyświetlane na oscyloskopach.",
+            "Najdłuższa sesja w grze według Guinnessa trwała ponad 35 godzin.",
+            "Niektóre rośliny komunikują się między sobą przez substancje chemiczne w korzeniach.",
+            "Gra Pac-Man generowała dźwięki w oparciu o proste układy elektryczne, bez mikrofonu.",
+            "Średnio człowiek wydala około 1 litr śliny dziennie.",
+            "Gra The Sims pozwala graczom symulować życie codzienne w wirtualnym świecie.",
+            "Niektóre ryby mogą przeżyć w warunkach skrajnego mrozu.",
+            "W grach typu FPS refleks i precyzja gracza są kluczowe do zwycięstwa.",
+            "Pierwsze joysticki powstały w latach 60-tych i były wykorzystywane w symulatorach lotu.",
+            "Najwięcej słów w języku angielskim pochodzi z łaciny i francuskiego.",
+            "W grach typu RPG można spotkać tzw. NPC – postacie sterowane przez komputer.",
+            "Niektóre gady potrafią żyć ponad 100 lat.",
+            "Pierwsza konsola do gier domowych to Magnavox Odyssey z 1972 roku.",
+            "Człowiek potrafi zapamiętać około 50 000 słów w życiu.",
+            "W grach strategicznych gracze uczą się przewidywania ruchów przeciwnika.",
+            "Niektóre zwierzęta potrafią zmieniać kolor skóry dla kamuflażu.",
+            "Gra Minecraft została pierwotnie wydana w 2009 roku jako wersja alfa.",
+            "Ludzie mają około 5 milionów włosów na całym ciele.",
+            "W grach logicznych gracze rozwijają umiejętność rozwiązywania problemów.",
+            "Pierwsza gra zręcznościowa to Pong, wydana w 1972 roku.",
+            "Niektóre delfiny używają narzędzi do polowania na ryby.",
+            "W grach MMO gracze tworzą własne społeczności i ekonomie.",
+            "Mózg człowieka waży około 1,4 kg i zużywa 20% energii ciała.",
+            "W grze Pac-Man można znaleźć ukryty kod zwany ‘kill screen’.",
+            "Niektóre drzewa mogą żyć ponad 5 000 lat.",
+            "Najwięcej sprzedanych egzemplarzy w historii ma gra Tetris.",
+            "W grach przygodowych gracze uczą się obserwacji i eksploracji.",
+            "Pierwsza gra FPS to Maze War z lat 70-tych.",
+            "Niektóre owady potrafią przeżyć kilka tygodni pod wodą.",
+            "W grach mobilnych gracze często używają taktyki mikro-transakcji.",
+            "Najdłuższy maraton grania w grę trwał ponad 138 godzin.",
+            "Niektóre ryby potrafią regenerować części ciała, np. ogon.",
+            "Gra Pokemon miała pierwotnie wersję dla Game Boy w 1996 roku.",
+            "Ludzkie oczy potrafią rozróżnić około 10 milionów kolorów.",
+            "W grach sandbox gracze mogą tworzyć własne światy i scenariusze.",
+            "Pierwsze animacje komputerowe powstały w latach 60-tych.",
+            "Niektóre zwierzęta potrafią migrować tysiące kilometrów, np. łososie.",
+            "Gra Super Mario Bros była przełomowa dla platformówek w 1985 roku.",
+            "Ludzie mają około 206 kości w ciele dorosłym.",
+            "W grach edukacyjnych gracze uczą się nowych umiejętności w przyjemny sposób.",
+            "Pierwsze gry RPG na komputerach powstały w latach 70-tych.",
+            "Niektóre ptaki potrafią naśladować ludzką mowę.",
+            "W grach horror gracze doświadczają adrenaliny i emocji podobnych do prawdziwych sytuacji.",
+            "Mózg człowieka generuje tysiące snów w ciągu życia.",
+            "Gra League of Legends w szczytowym momencie miała ponad 100 milionów aktywnych graczy miesięcznie.",
+            "Niektóre zwierzęta mogą żyć bez jedzenia przez kilka miesięcy.",
+            "Pierwsza gra z widokiem z perspektywy pierwszej osoby to Maze War.",
+            "Ludzie potrafią słyszeć dźwięki od 20 Hz do 20 000 Hz.",
+            "W grach wyścigowych gracze uczą się refleksu i kontroli pojazdu.",
+            "Gra Doom w 1993 roku zrewolucjonizowała gatunek FPS.",
+            "Największy statek na świecie może mieć długość ponad 400 metrów.",
+            "W grach roguelike poziomy są generowane losowo, więc każda rozgrywka jest inna.",
+            "Niektóre rośliny mogą żyć setki lat i przetrwać ekstremalne warunki.",
+            "Gra Half-Life 2 wprowadziła realistyczną fizykę obiektów w grach.",
+            "Mózg człowieka posiada około 100 miliardów neuronów.",
+            "Niektóre zwierzęta używają narzędzi do zdobywania pożywienia, np. kruki.",
+            "Pierwsza gra Mario Kart powstała w 1992 roku na SNES.",
+            "Średnia prędkość myszy komputerowej to około 40 km/h w reakcji na ruch ręki.",
+            "Niektóre jaja ptaków zmieniają kolor w zależności od warunków środowiska.",
+            "W grach typu battle royale ostatni gracz lub drużyna wygrywa rozgrywkę.",
+            "Pierwsze gry platformowe pozwalały graczom na skakanie po platformach i unikaniu przeszkód.",
+            "Niektóre ryby mogą pamiętać i rozpoznawać twarze ludzi.",
+            "W grach MMO świat jest często stale aktualizowany przez twórców i graczy.",
+            "Pierwsza gra z perspektywą trzeciej osoby to Karateka w 1984 roku.",
+            "Niektóre zwierzęta potrafią regenerować serce lub kończyny.",
+            "Gra Portal wprowadziła unikalną mechanikę przenikania przez portale.",
+            "Średnia długość życia kota domowego to około 15 lat.",
+            "Niektóre gry edukacyjne uczą dzieci matematyki i języków poprzez zabawę.",
+            "Pierwsze gry zręcznościowe były oparte na prostych schematach ruchu piłki lub klocków.",
+            "Niektóre delfiny komunikują się za pomocą kliknięć i gwizdów.",
+            "Gra Civilization pozwala graczom prowadzić własne cywilizacje przez tysiące lat.",
+            "Ludzkie dłonie mają 27 kości i ponad 20 mięśni kontrolujących ruchy."
         ];
 
-        function showJoke() {
-            const randomIndex = Math.floor(Math.random() * jokes.length);
-            document.getElementById("joke").innerText = jokes[randomIndex];
+        function showFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const factDiv = document.getElementById("fact");
+            factDiv.classList.remove("show"); // reset animacji
+            setTimeout(() => {
+                factDiv.innerText = facts[randomIndex];
+                factDiv.classList.add("show"); // animacja fade-in
+            }, 100); 
         }
     </script>
 </body>
 </html>
+
