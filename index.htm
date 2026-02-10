@@ -37,11 +37,29 @@
     select:hover {
         background-color: #0056b3;
     }
-    #fact {
+    #fact-container {
+        margin-top: 40px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #fact-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.8s ease;
+    }
+    #fact-image.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    #fact-text {
         font-size: 22px;
         color: #222;
-        max-width: 900px;
-        margin: 40px auto;
         padding: 20px;
         background: rgba(255,255,255,0.7);
         border-radius: 12px;
@@ -49,7 +67,7 @@
         transform: translateX(100%);
         transition: all 0.8s ease;
     }
-    #fact.show {
+    #fact-text.show {
         opacity: 1;
         transform: translateX(0);
     }
@@ -67,7 +85,10 @@
 
 <button onclick="showFact()">Pokaż ciekawostkę</button>
 
-<div id="fact">Kliknij przycisk, aby zobaczyć ciekawostkę!</div>
+<div id="fact-container">
+    <img id="fact-image" src="" alt="Losowe zdjęcie">
+    <div id="fact-text">Kliknij przycisk, aby zobaczyć ciekawostkę!</div>
+</div>
 
 <script>
 const facts = [
@@ -92,7 +113,6 @@ const facts = [
     {text: "Gra The Legend of Zelda: Ocarina of Time była jedną z pierwszych 3D.", category: "game"},
     {text: "Pierwsza gra FPS to Maze War z lat 70-tych.", category: "game"},
 
-    // Życie
     {text: "Ludzie średnio mrugają 15–20 razy na minutę.", category: "life"},
     {text: "Serce człowieka bije około 100 000 razy dziennie.", category: "life"},
     {text: "Człowiek śpi średnio 25 lat w życiu.", category: "life"},
@@ -127,12 +147,22 @@ function showFact() {
     const filtered = category === "all" ? facts : facts.filter(f => f.category === category);
     
     currentIndex = Math.floor(Math.random() * filtered.length);
-    const factDiv = document.getElementById("fact");
     
-    factDiv.classList.remove("show"); // reset animacji
+    const factDiv = document.getElementById("fact-text");
+    const imgDiv = document.getElementById("fact-image");
+
+    // reset animacji
+    factDiv.classList.remove("show");
+    imgDiv.classList.remove("show");
+
     setTimeout(() => {
         factDiv.innerText = `#${currentIndex+1} - ${filtered[currentIndex].text}`;
-        factDiv.classList.add("show"); // fade-in + przesuwanie
+        factDiv.classList.add("show");
+
+        // losowe zdjęcie z Unsplash
+        let query = filtered[currentIndex].category === "game" ? "gaming" : "nature";
+        imgDiv.src = `https://source.unsplash.com/800x400/?${query}&sig=${Math.floor(Math.random()*1000)}`;
+        imgDiv.classList.add("show");
     }, 100);
 }
 </script>
